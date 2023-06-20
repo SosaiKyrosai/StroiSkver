@@ -1,0 +1,39 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+
+{%block tittle%}
+{{category.name}}
+{%endblock%}
+{%block content%}
+<style>
+.card-img-container {
+  width: 100%;
+  max-width: 100%;
+}
+  .custom-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+</style>
+
+<h2>Products in {{category.name}}</h2>
+
+<div class="row custom-row" style="margin-top: 20px; margin-left: 60px;">
+  {% for product in products %}
+    <div style="width: 300px;" class="col-md-4 mb-4">
+      <div style="height: 400px;" class="card">
+        {% if product.image %}
+        <div class="card-img-container">
+          <img style="width: 100%;" src="{{ product.image.url }}" class="card-img-top imageproduct" alt="{{ product.name }}">
+        </div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">Price: {{ product.price }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{%endblock%}

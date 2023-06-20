@@ -1,30 +1,13 @@
 {%load static%}
-<html lang="ru" class="h-100"><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Марк Отто, Джейкоб Торнтон и контрибьюторы Bootstrap">
-    <meta name="generator" content="Hugo 0.80.0">
+<html lang="ru" class="h-100">
+<head>
     <title>{%block tittle%}{%endblock%}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <link rel="canonical" href="https://getbootstrap.su/docs/5.0/examples/cover/">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
-
-
-
-    <!-- Bootstrap core CSS -->
-<link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" >
-
-    <!-- Favicons -->
-<link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
-<link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
-<meta name="theme-color" content="#7952b3">
+    <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
 
 
     <style>
@@ -123,8 +106,6 @@
     </style>
 
 
-    <!-- Custom styles for this template -->
-    <link href="cover.css" rel="stylesheet">
   </head>
   <body style="position: relative; z-index: 1000;" class="d-flex h-100 text-center text-white bg-dark">
 
@@ -143,9 +124,7 @@
 
               <nav class="nav nav-masthead justify-content-center float-md-end">
                   <form class="d-flex" role="search">
-                      <input class="form-control me-2" name="q" id="id_q_large" type="text"
-                             placeholder="Поиск по статьям" aria-label="Search">
-                      <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+                      {%block search%}{%endblock%}
                   </form>
               </nav>
           </div>
@@ -163,14 +142,14 @@
       <div id="menu" class="menu">
           <div style="margin-top:70px">
               <ul>
-                  <li><a href="#">Ссылка 1</a></li>
+                  <li><a href="{% url 'materials' %}">Стройматериалы</a></li>
                   <li><a href="#">Ссылка 2</a></li>
                   <li><a href="#">Ссылка 3</a></li>
               </ul>
           </div>
       </div>
 
-      <div>
+      <div style="align-items: flex-start;">
           {%block content%}{%endblock%}
       </div>
 
