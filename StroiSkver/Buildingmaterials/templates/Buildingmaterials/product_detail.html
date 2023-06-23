@@ -1,0 +1,83 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+
+{% block title %}
+Стройматериалы
+{% endblock %}
+
+{% block content %}
+<style>
+.product-details-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+}
+
+.product-details-left {
+  flex: 1;
+}
+
+.product-details-right {
+  flex: 1;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-details-right img {
+  width: 100%;
+}
+
+.product-actions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.wishlist-button {
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+.cart-button {
+  align-self: flex-start;
+  margin-left: 20px;
+}
+
+.product-details-right p {
+  text-align: left;
+  padding-left: 20px;
+}
+  .custom-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+</style>
+<a href="{% url 'materials' %}" class="btn btn-secondary" style="background-color: #8e7e9b;">
+    <span class="arrow">&larr;</span> Назад
+</a>
+<div class="product-details-container">
+  <div class="product-details-left">
+    <img style="width: 100%;" src="{{ product.image.url }}" class="card-img-top imageproduct" alt="{{ product.name }}">
+  </div>
+  <div class="product-details-right">
+    <h1>{{ product.name }}</h1>
+    <div class="product-actions">
+      <button class="btn btn-secondary wishlist-button">
+        <i class="far fa-heart"></i> Добавить в избранное
+      </button>
+    </div>
+    <p style="margin-top: 20px;">Описание: {{ product.description }}</p>
+    <p>Цена: {{ product.price }} ₽</p>
+    <div class="product-actions">
+      <button class="btn btn-primary cart-button">
+        <i class="fas fa-shopping-cart"></i> Добавить в корзину
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<a href="{% url 'home' %}">Вернуться на главную</a>
+{% endblock %}

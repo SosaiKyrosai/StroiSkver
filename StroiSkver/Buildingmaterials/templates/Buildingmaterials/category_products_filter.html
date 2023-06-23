@@ -1,5 +1,4 @@
 {% extends 'Core/base.html' %}
-{% load static %}
 
 {%block tittle%}
 {{category.name}}
@@ -94,6 +93,7 @@
 </div>
 
   <div class="row custom-row" style="margin-top: 80px; margin-left: 60px;">
+    {% if products %}
     {% for product in products %}
     <div style="width: 300px;" class="col-md-4 mb-4">
       <a class="none-decoration" href="{{ product.get_absolute_url }}">
@@ -111,6 +111,9 @@
       </a>
     </div>
     {% endfor %}
+    {% else %}
+    <h1>Ничего не найдено</h1>
+    {% endif %}
   </div>
 
 {% endblock %}
