@@ -1,0 +1,42 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+{%block tittle%}
+Регистрация
+{%endblock%}
+{%block content%}
+
+	<div class="fbodyauth">
+
+		    <form class="form-signin" method="post">{% csrf_token %}
+                <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+				<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+
+				<input type="text" name="username" id="inputUsername" class="form-control" placeholder="Имя пользователя" required>
+
+				<input type="password" name="password1" id="inputPassword1" class="form-control" placeholder="Пароль" required>
+
+				<input type="password" name="password2" id="inputPassword2" class="form-control" placeholder="Повторите пароль" required>
+
+				{% for field in registration_form %}
+				<p>
+				{% for error in field.errors %}
+				<p style="color: red">{{ error }}</p>
+				{% endfor %}
+				</p>
+				{% endfor %}
+				{% if registration_form.non_field_errors %}
+				<div style="color: red">
+					<p>{{registration_form.non_field_errors}}</p>
+				</div>
+
+				{% endif %}
+
+				<button class="fbuttons" type="submit">Регистрация</button>
+
+				</form>
+
+<a class="flinka" href="{%url 'authorization'%}">Авторизация</a>
+	</div>
+
+
+{%endblock%}

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Home',
+    'Account',
     'Buildingmaterials',
     'Core',
 ]
@@ -58,7 +59,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'Buildingmaterials/templates/Buildingmaterials')
+            os.path.join(BASE_DIR, 'Buildingmaterials/templates/Buildingmaterials'),
+            os.path.join(BASE_DIR, 'Account/templates/Account'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

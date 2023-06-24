@@ -116,58 +116,74 @@
     </style>
 
 
-  </head>
-  <body style="position: relative; z-index: 1000;" class="d-flex h-100 text-center text-white bg-dark">
+</head>
+<body style="position: relative; z-index: 1000;" class="d-flex h-100 text-center text-white bg-dark">
 
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
-      <header class="mb-auto">
-          <div>
-              <nav class="nav nav-masthead justify-content-center float-md-start">
-                  <button class="header__hamburger" onclick="toggleMenu()">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                  </button>
-                  <a href="{% url 'home' %}" class="float-md-start mb-0 text-decoration-none">StroiSkver</a>
+    <header class="mb-auto">
+        <div>
+            <nav class="nav nav-masthead justify-content-center float-md-start">
+                <button class="header__hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="{% url 'home' %}" class="float-md-start mb-0 text-decoration-none">StroiSkver</a>
 
-              </nav>
+            </nav>
 
-              <nav class="nav nav-masthead justify-content-center float-md-end">
-                  <form class="d-flex" role="search">
-                      {%block search%}{%endblock%}
-                  </form>
-              </nav>
-          </div>
-      </header>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <form class="d-flex" role="search">
+                    {%block search%}{%endblock%}
+                </form>
+                {% if request.user.is_authenticated %}
+				<div class="dropdown dropleft p-2 mt-2">
+					<div class="d-flex flex-row">
+						<div class="btn-group dropleft">
+							<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{request.user.profile_image.url}}" alt="logo" width="40" height="40">
+							<div class="dropdown-menu" aria-labelledby="id_profile_links">
+								<a class="dropdown-item" href="{% url 'profile' user_id=request.user.id %}">Профиль</a>
+								<a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% else %}
+					<a class="btn btn-outline-light m-2 mx-3" href="{%url 'authorization'%}">Вход</a>
+				{% endif %}
+            </nav>
+        </div>
+    </header>
 
-      <script>
+    <script>
       // Скрипт для выдвижного меню
       function toggleMenu() {
         var menu = document.getElementById("menu");
         menu.classList.toggle("open");
       }
 
-      </script>
 
-      <div id="menu" class="menu">
-          <div style="margin-top:70px">
-              <ul>
-                  <li><a href="{% url 'materials' %}">Стройматериалы</a></li>
-                  <li><a href="#">Ссылка 2</a></li>
-                  <li><a href="#">Ссылка 3</a></li>
-              </ul>
-          </div>
-      </div>
+    </script>
 
-      <div style="align-items: flex-start;">
-          {%block content%}{%endblock%}
-      </div>
+    <div id="menu" class="menu">
+        <div style="margin-top:70px">
+            <ul>
+                <li><a href="{% url 'materials' %}">Стройматериалы</a></li>
+                <li><a href="#">Ссылка 2</a></li>
+                <li><a href="#">Ссылка 3</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="align-items: flex-start;">
+        {%block content%}{%endblock%}
+    </div>
 
 
-      <footer class="mt-auto text-white-50">
-    <p>StroiSkver 2023</p>
-  </footer>
+    <footer class="mt-auto text-white-50">
+        <p>StroiSkver 2023</p>
+    </footer>
 </div>
 
 
