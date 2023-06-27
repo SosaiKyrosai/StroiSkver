@@ -1,0 +1,122 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{%block tittle%}
+{{category.name}}
+{%endblock%}
+{%block content%}
+<style>
+.card-img-container {
+  width: 100%;
+  max-width: 100%;
+}
+.custom-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.arrow {
+  margin-right: 5px;
+}
+.header-container {
+  position: absolute;
+  top: 120px;
+  left: 120px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Добавляем отступ снизу */
+}
+.category-heading {
+  margin-left: 10px;
+}
+.card-body {
+  position: relative; /* Добавляем относительное позиционирование для контейнера .card-body */
+}
+.card-body p.card-text {
+  color: #1a46bd; /* Устанавливаем синий цвет текста */
+  font-weight: bold; /* Делаем текст жирным */
+  position: absolute; /* Используем абсолютное позиционирование для параграфа */
+  bottom: 0; /* Выравниваем параграф внизу */
+  left: 0; /* Выравниваем параграф влево */
+  margin: 0; /* Удаляем внешние отступы для параграфа */
+  margin-left: 5px; /* Отступ слева */
+  margin-bottom: 5px; /* Отступ снизу */
+}
+.card-body h6.card-title {
+  margin: 0; /* Удаляем внешние отступы для заголовка */
+  text-align: left; /* Выравнивание по левому краю */
+}
+ .none-decoration {
+   text-decoration: none;
+ }
+ .filter-form {
+  margin-bottom: 20px;
+}
+
+.filter-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.filter-button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+}
+
+</style>
+
+<div>
+  <div class="header-container">
+     <a onclick="goBack()" href="#" class="btn btn-secondary" style="background-color: #8e7e9b;">
+      <span class="arrow">&larr;</span> Все товары
+    </a>
+
+    <script>
+function goBack() {
+  window.history.back();
+}
+    </script>
+
+    <h4 class="category-heading">Вы смотрите категорию: "{{ category.name }}"</h4>
+  </div>
+  <div class="filter-container" style="padding-top: 120px">
+    <h4 class="filter-title">Фильтр по цене:</h4>
+    <form action="{% url 'category_products_filter' category_slug=category.slug %}" method="get" class="filter-form">
+      <input type="number" name="min_price" placeholder="Мин. цена" value="1" class="filter-input">
+      <input type="number" name="max_price" placeholder="Макс. цена" value="100000" class="filter-input">
+      <button type="submit" class="btn btn-primary filter-button">Применить</button>
+    </form>
+  </div>
+</div>
+
+  <div class="row custom-row" style="margin-top: 80px; margin-left: 60px;">
+    {% for product in products %}
+    <div style="width: 300px;" class="col-md-4 mb-4">
+      <a class="none-decoration" href="{{ product.get_absolute_url }}">
+        <div style="height: 400px;" class="card">
+          {% if product.image %}
+          <div class="card-img-container">
+            <img style="width: 100%;" src="{{ product.image.url }}" class="card-img-top imageproduct" alt="{{ product.name }}">
+          </div>
+          {%endif%}
+          <div class="card-body">
+            <h6 class="card-title">{{ product.name }}</h6>
+            <p class="card-text">Цена: {{ product.price }} ₽</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

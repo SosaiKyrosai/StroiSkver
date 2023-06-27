@@ -1,0 +1,133 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{%block tittle%}
+Стройматериалы
+{%endblock%}
+{%block content%}
+<style>
+.card-body {
+  position: relative; /* Добавляем относительное позиционирование для контейнера .card-body */
+}
+
+.card-body p.card-text {
+  color:#1a46bd; /* Устанавливаем синий цвет текста */
+  font-weight: bold; /* Делаем текст жирным */
+  position: absolute; /* Используем абсолютное позиционирование для параграфа */
+  bottom: 0; /* Выравниваем параграф внизу */
+  left: 0; /* Выравниваем параграф влево */
+  margin: 0; /* Удаляем внешние отступы для параграфа */
+  margin-left: 5px; /* Отступ слева */
+  margin-bottom: 5px; /* Отступ снизу */
+}
+
+.card-body h6.card-title {
+  margin: 0;/* Удаляем внешние отступы для заголовка */
+  margin: 0; /* Удаляем внешние отступы */
+  text-align: left; /* Выравнивание по левому краю */
+  text-decoration: none;
+  }
+ .none-decoration {
+   text-decoration: none;
+ }
+
+.card-img-container {
+  width: 100%;
+  max-width: 100%;
+}
+  .custom-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+.category-container {
+  width: calc(100% - 60px);
+  margin-top: 20px;
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+}
+.category-title {
+  margin: 5;
+}
+
+.category-buttons {
+  display: flex;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.category-buttons a {
+  margin-right: 10px;
+  background-color: #8e7e9b;
+  margin-bottom: 10px;
+}
+.filter-form {
+  margin-bottom: 20px;
+}
+
+.filter-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.filter-button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+}
+
+</style>
+
+<div class="category-container">
+  <h4 class="category-title">Категории:</h4>
+  <div class="category-buttons">
+    {% for category in categories %}
+      <a href="{% url 'category_product_list' category.slug %}" class="btn btn-secondary">{{ category.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+<div class="filter-container">
+  <h4 class="filter-title">Фильтр по цене:</h4>
+  <form action="{% url 'all_products_filter' %}" method="get" class="filter-form">
+    <input type="number" name="min_price" placeholder="Мин. цена" value="1" class="filter-input">
+    <input type="number" name="max_price" placeholder="Макс. цена" value="100000" class="filter-input">
+    <button type="submit" class="btn btn-primary filter-button">Применить</button>
+  </form>
+</div>
+
+
+<div class="row custom-row" style="margin-top: 20px; margin-left: 60px;">
+  {% for product in products %}
+  <div style="width: 300px;" class="col-md-4 mb-4">
+    <a class="none-decoration" href="{{ product.get_absolute_url }}">
+      <div style="height: 400px;" class="card">
+        {% if product.image %}
+        <div class="card-img-container">
+          <img style="width: 100%;" src="{{ product.image.url }}" class="card-img-top imageproduct"
+               alt="{{ product.name }}">
+        </div>
+        {% endif %}
+        <div class="card-body">
+          <h6 class="card-title">{{ product.name }}</h6>
+          <p class="card-text">Цена: {{ product.price }} ₽</p>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{%endblock%}

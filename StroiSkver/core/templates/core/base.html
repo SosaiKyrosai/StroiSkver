@@ -1,0 +1,199 @@
+{%load static%}
+<html lang="ru" class="h-100">
+<head>
+    <title>{%block tittle%}{%endblock%}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link rel="canonical" href="https://getbootstrap.su/docs/5.0/examples/cover/">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+
+     .link-profile {
+   text-decoration: none;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+   padding-left: 5px;
+   padding-bottom: 5px;
+ }
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+             .header__hamburger {
+    width: 32px;
+    height: 32px;
+    display: block;
+    background: transparent;
+    border: transparent;
+    z-index: 9999;
+    margin-right: 10px;
+  }
+  .header__hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: white;
+    position: relative;
+    -webkit-box-shadow: 0 2px 10px #00000030;
+            box-shadow: 0 2px 10px #00000030;
+  }
+  .header__hamburger span + span {
+    margin-top: 7px;
+  }
+  .header__hamburger span:nth-child(1) {
+    -webkit-animation: ease 0.5s top-back forwards;
+            animation: ease 0.5s top-back forwards;
+  }
+  .header__hamburger span:nth-child(1) {
+    -webkit-animation: ease 0.5s middle-back forwards;
+            animation: ease 0.5s middle-back forwards;
+  }
+  .header__hamburger span:nth-child(3) {
+    -webkit-animation: ease 0.5s bottom-back forwards;
+            animation: ease 0.5s bottom-back forwards;
+  }
+  .button {
+  margin: 10px;
+}
+.menu {
+        position: fixed;
+        top: 0;
+        left: -200px;
+        width: 200px;
+        height: 100%;
+        background-color: #333;
+        transition: all 0.3s ease-in-out;
+        z-index: 100;
+    }
+
+    .menu.open {
+        left: 0;
+    }
+
+    .menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu li {
+        margin-bottom: 10px;
+    }
+
+    .menu a {
+        display: block;
+        padding: 5px 10px;
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+        border-bottom: 1px solid #fff;
+    }
+
+    .menu a:hover {
+        background-color: #555;
+    }
+
+    header.mb-auto {
+        position: relative;
+        z-index: 999;
+    }
+    a.float-md-start.mb-0 {
+    display: inline-block;
+    font-size: inherit;
+    font-size: 1.75rem;
+    font-weight: 900;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    text-decoration: none;
+    }
+    </style>
+
+
+</head>
+<body style="position: relative; z-index: 1000;" class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <header class="mt-2">
+        <div>
+            <nav class="nav nav-masthead justify-content-center float-md-start">
+                <button class="header__hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="{% url 'home' %}" style="z-index: 9999;" class="float-md-start mb-0 text-decoration-none">StroiSkver</a>
+
+            </nav>
+
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <form class="d-flex" role="search">
+                    {%block search%}{%endblock%}
+                </form>
+                <div  style="padding-left: 10px;">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">
+                        <img class="account-image rounded-circle m-auto d-block dropdown-toggle"
+                             id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                             src="{{ user.profile.photo.url }}" alt="Profile Photo" width="40" height="40">
+                    </a>
+                    {% else %}
+                    <a class="btn btn-outline-light m-2 mx-3" href="#">Вход</a>
+                    {% endif %}
+                </div>
+                <a class="link-profile" href="{% url 'profile' %}">Профиль</a>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+      // Скрипт для выдвижного меню
+      function toggleMenu() {
+        var menu = document.getElementById("menu");
+        menu.classList.toggle("open");
+      }
+
+
+    </script>
+
+    <div id="menu" class="menu">
+        <div style="margin-top:70px">
+            <ul>
+                <li><a href="{% url 'materials' %}">Стройматериалы</a></li>
+                <li><a href="#">Ссылка 2</a></li>
+                <li><a href="#">Ссылка 3</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="align-items: flex-start;">
+        {%block content%}{%endblock%}
+    </div>
+
+
+    <footer class="mt-auto text-white-50">
+        <p>StroiSkver 2023</p>
+    </footer>
+</div>
+
+
+
+
+
+</body></html>

@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<style>
+    .block {
+      background-color: #d3d9e3;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      color: #4f4d4d;
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+
+    .block h2 {
+      margin-top: 0;
+      text-align: left;
+    }
+
+    .block h2:first-child {
+      margin-top: 20px;
+    }
+        .edit-button {
+      background-color: #2358de;
+      color: white;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+ </style>
+
+<div style="margin-top: 20px;" class="container">
+  <div class="row">
+    <div style="text-align: left;" class="col-md-12">
+      <h2>Личные данные <a href=" {% url 'profile_edit' %}" class="edit-button">Редактировать страницу</a></h2>
+      <div class="block">
+        <div class="row justify-content-center">
+          <div class="col-md-4 text-center">
+            <img style="box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);" src="{{ user.profile.photo.url }}" alt="Profile Photo" width="200" height="200">
+          </div>
+          <div class="col-md-8 text-left">
+            <p>Имя пользователя: {{ user.username }}</p>
+            <p>Email: {% if user.email %}{{ user.email }}{% else %}не указано{% endif %}</p>
+            <p>Номер телефона: {% if user.profile.phone_number %}{{ user.profile.phone_number }}{% else %}не указано{% endif %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div style="text-align: left;" class="col-md-6">
+      <h2>Адрес</h2>
+      <div class="block">
+        <p>Улица: {% if user.profile.street %}{{ user.profile.street }}{% else %}не указано{% endif %}</p>
+        <p>Дом: {% if user.profile.house_number %}{{ user.profile.house_number }}{% else %}не указано{% endif %}</p>
+        <p>Квартира: {% if user.profile.apartment_number %}{{ user.profile.apartment_number }}{% else %}не указано{% endif %}</p>
+        <p>Город: {% if user.profile.city %}{{ user.profile.city }}{% else %}не указано{% endif %}</p>
+      </div>
+    </div>
+    <div style="text-align: left;" class="col-md-6">
+      <h2>Блок В</h2>
+      <div class="block">
+        <p>Это блок В, он пустой.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
