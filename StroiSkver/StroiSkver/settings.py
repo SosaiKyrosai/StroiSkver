@@ -54,6 +54,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/var/www/static/',
+]
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+
 ROOT_URLCONF = 'StroiSkver.urls'
 
 TEMPLATES = [

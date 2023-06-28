@@ -44,6 +44,7 @@ class ProfileEditForm(UserChangeForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
+    photo = forms.ImageField(required=False)
     phone_number = forms.CharField(max_length=12, required=False)
     city = forms.CharField(max_length=255, required=False)
     street = forms.CharField(max_length=255, required=False)
@@ -53,6 +54,7 @@ class ProfileEditForm(UserChangeForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         profile, created = Profile.objects.get_or_create(user=user)
+        profile.photo = self.cleaned_data['photo']
         profile.phone_number = self.cleaned_data['phone_number']
         profile.city = self.cleaned_data['city']
         profile.street = self.cleaned_data['street']
@@ -67,7 +69,7 @@ class ProfileEditForm(UserChangeForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name")
+        fields = ("first_name", "last_name", "email")
 
 
 class UserProfileForm(forms.ModelForm):
@@ -81,7 +83,7 @@ class UserProfileForm(forms.ModelForm):
 def profile_edit(request):
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
-        user_profile_form = UserProfileForm(request.POST, instance=request.user.profile)
+        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()

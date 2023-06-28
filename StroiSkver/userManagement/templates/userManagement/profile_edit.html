@@ -1,24 +1,71 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  </head>
-  <body>
-    
-    <div class="container pt-5">
-      <div class="d-flex justify-content-center">
-        <form method="post">
-          {% csrf_token %}
-          {{ u_form.as_p}}
-          {{ p_form.as_p}}
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
-    </div>
+{% extends 'core/base.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-  </body>
-</html>
+{% block content %}
+<style>
+    /* Стили для формы редактирования профиля */
+    .profile-edit-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #d3d9e3;
+        border-radius: 10px;
+        color: #4f4d4d;
+        font-size: 1.3rem;
+    }
+
+    .profile-edit-form label {
+        font-weight: bold;
+    }
+
+    .profile-edit-form input[type="text"],
+    .profile-edit-form input[type="email"],
+    .profile-edit-form input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .profile-edit-form .submit-button {
+        background-color: #2358de;
+        color: white;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        text-decoration: none;
+        font-size: 1.3rem;
+    }
+    p {
+    font-size: 1.3rem;
+    font-weight: 700;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center">Редактирование профиля</h2>
+            <form class="profile-edit-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>Имя:</p> {{ u_form.first_name }}
+                <p>Фамилия:</p> {{ u_form.last_name }}
+                <p>Email адрес:</p> {{ u_form.email }}
+                {% if not p_form.hidden_fields %}
+                <div class="form-group">
+                    <label for="{{ p_form.photo.id_for_label }}">Фото профиля:</label>
+                    {{ p_form.photo}}
+                </div>
+                {% endif %}
+                <p>Номер телефона:</p> {{ p_form.phone_number.as_widget }}
+                <p>Город:</p> {{ p_form.city.as_widget }}
+                <p>Улица:</p> {{ p_form.street.as_widget }}
+                <p>Дом:</p> {{ p_form.house_number.as_widget }}
+                <p>Квартра:</p> {{ p_form.apartment_number.as_widget }}
+                <button class="submit-button" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
