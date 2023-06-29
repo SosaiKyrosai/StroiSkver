@@ -1,0 +1,149 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<style>
+.cart-items {
+  background-color: #f2f2f2;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  border-radius: 10px;
+}
+
+.cart-item {
+  position: relative; /* Добавляем позиционирование для контейнера товара */
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc; /* Добавлено разделение линией */
+  padding-bottom: 10px; /* Добавлено для отступа между товарами */
+}
+
+.cart-item img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.item-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cart-item p {
+  color: black;
+}
+
+.cart-summary {
+  background-color: #8a3e86;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  width: fit-content;
+  margin-left: auto;
+  border-radius: 4px;
+}
+
+.total-price {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.cart-summary button {
+  margin-left: 10px;
+}
+
+.btn-primary {
+  background-color: #4f224d;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.product-image {
+  width: 100px;
+  margin-right: 20px;
+}
+
+.product-name {
+  position: absolute; /* Абсолютное позиционирование для названия товара */
+  top: 0;
+  left: 120px; /* Задаем расстояние от фото */
+  margin: 0;
+}
+
+.item-price-quantity {
+  display: flex;
+  align-items: flex-end;
+}
+
+.product-quantity {
+  margin-right: 20px;
+}
+
+.product-price {
+  margin: 0;
+}
+
+.cart-container {
+  position: relative;
+  display: inline-block;
+  width: 80%;
+}
+
+.tab-button {
+  background-color: #8a3e86;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  position: absolute;
+  top: -40px;
+  right: 130;
+  border-radius: 5px 5px 0 0;
+}
+
+</style>
+
+<h1 style="margin-bottom: 30px;">Редактирование корзины</h1>
+
+{% if cart %}
+  <div class="cart-container">
+    <form action="{% url 'update_cart' %}" method="POST">
+      {% csrf_token %}
+      <div class="cart-items">
+        {% for item in cart.cart_items.all %}
+          <div class="cart-item">
+            <div class="item-details">
+              {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+              {% endif %}
+              <p class="product-name">{{ item.product.name }}</p>
+              <div class="item-price-quantity">
+                <p class="product-quantity">
+                  <input type="number" name="quantity-{{ item.id }}" value="{{ item.quantity }}" min="1" step="1" style="width: 40px;">
+                </p>
+                <p class="product-price">Цена:{{ item.product.price }}</p>
+                <button style="margin-left: 30px;" name="delete-{{ item.id }}" class="btn btn-danger delete-button">
+                  <i class="fa fa-trash"></i> Удалить
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="cart-summary">
+          <p class="total-price"><strong>Общая стоимость:</strong> {{ cart.get_total_price }}</p>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% else %}
+  <p>Ваша корзина пуста.</p>
+{% endif %}
+
+{% endblock %}

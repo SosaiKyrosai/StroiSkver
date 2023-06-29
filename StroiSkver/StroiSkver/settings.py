@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'userManagement',
     'home',
     'core',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'buildingmaterials/templates/buildingmaterials'),
             os.path.join(BASE_DIR, 'userManagement/templates/userManagement'),
+            os.path.join(BASE_DIR, 'order/templates/order'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

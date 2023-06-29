@@ -77,11 +77,12 @@ function goBack() {
     </div>
     <p style="margin-top: 20px;">Описание: {{ product.description }}</p>
     <p>Цена: {{ product.price }} ₽</p>
-    <div class="product-actions">
-      <button class="btn btn-primary cart-button">
+    <form action="{% url 'add_to_cart' product.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary cart-button">
         <i class="fas fa-shopping-cart"></i> Добавить в корзину
       </button>
-    </div>
+    </form>
   </div>
 </div>
 
