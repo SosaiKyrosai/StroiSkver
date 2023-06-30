@@ -1,3 +1,9 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
 <h1>Заказ успешно оформлен</h1>
-<p>Номер вашего заказа: {{ order.id }}</p>
+<p>Номер вашего заказа: {{ order.id }}, вы можете посмотреть заказы в <a style="font-weight: bold; color: #ba54b5; text-decoration: none;" href="{% url 'profile' %}">профиле</a></p>
 <!-- Другие детали заказа -->
+
+{% endblock %}

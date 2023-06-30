@@ -20,8 +20,20 @@
     .block h2:first-child {
       margin-top: 20px;
     }
-        .edit-button {
-      background-color: #2358de;
+
+    .edit-button {
+      background-color: #8a3e86;
+      color: white;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 5px 5px 0 0;
+      text-decoration: none;
+      font-size: 1.3rem;
+      margin-right: 15px;
+    }
+
+    .logout-button {
+      background-color: #e74c3c;
       color: white;
       font-weight: 500;
       padding: 8px 16px;
@@ -29,12 +41,25 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
+
+    .order-link {
+      color: #8a3e86;
+      text-decoration: none;
+    }
+
+    /* Отключение подчеркивания текста */
+    .order-link, .logout-button {
+      text-decoration: none;
+    }
  </style>
 
 <div style="margin-top: 20px;" class="container">
   <div class="row">
     <div style="text-align: left;" class="col-md-12">
-      <h2>Личные данные <a href=" {% url 'profile_edit' %}" class="edit-button">Редактировать профиль</a></h2>
+      <h2>Личные данные
+        <a href="{% url 'profile_edit' %}" class="edit-button">Редактировать профиль</a>
+        <a href="{% url 'logout' %}" class="logout-button">Выйти из аккаунта</a>
+      </h2>
       <div class="block">
         <div class="row justify-content-center">
           <div class="col-md-4 text-center">
@@ -63,7 +88,23 @@
     <div style="text-align: left;" class="col-md-6">
       <h2>Заказы</h2>
       <div class="block">
-        <p>Тут будут заказы когда ты это реализуешь.😁 </p>
+        {% if orders %}
+        <ul>
+          {% for order in orders %}
+          <li>
+            <a href="{% url 'order_list' %}" class="order-link">Заказ №{{ order.id }}</a>
+            - Итоговая сумма: {{ order.total_price }}
+            - Дата: {{ order.order_date }}
+            - Адрес: {{ order.address }}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>У вас пока нет заказов.</p>
+        {% endif %}
+        {% if has_more_orders %}
+        <a href="{% url 'order_list' %}" class="history-button">История заказов</a>
+        {% endif %}
       </div>
     </div>
   </div>

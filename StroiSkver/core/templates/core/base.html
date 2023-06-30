@@ -137,6 +137,45 @@
   color: #8a3e86;
 }
 
+ #scroll-to-top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 50px;
+        left: 20px;
+        z-index: 999;
+        width: 50px;
+        height: 50px;
+        background-color: #555;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    #scroll-to-top .arrow {
+        font-size: 34px;
+
+#scroll-to-top-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        position: fixed;
+        bottom: 50px;
+        left: 20px;
+        z-index: 9999;
+        text-align: center;
+        width: 100px;
+    }
+       #scroll-to-top p {
+        margin: 0; /* убираем внутренние отступы параграфа */
+        font-size: 5px;
+    }
+
     </style>
 
 
@@ -161,9 +200,11 @@
                 <form class="d-flex" role="search">
                     {%block search%}{%endblock%}
                 </form>
+                {% if user.is_authenticated %}
                 <a href="{% url 'cart' %}" class="btn btn-cart">
                     <i class="fas fa-shopping-cart"></i>
                 </a>
+                {% endif %}
                 <div  style="padding-left: 10px;">
                     {% if user.is_authenticated %}
                     <a href="{% url 'profile' %}">
@@ -171,11 +212,14 @@
                              id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                              src="{{ user.profile.photo.url }}" alt="Profile Photo" width="40" height="40">
                     </a>
+
                     {% else %}
-                    <a class="btn btn-outline-light m-2 mx-3" href="#">Вход</a>
+                    <a class="btn btn-outline-light m-2 mx-3" href="{% url 'login' %}">Вход</a>
                     {% endif %}
                 </div>
+                {% if user.is_authenticated %}
                 <a class="link-profile" href="{% url 'profile' %}">Профиль</a>
+                {% endif %}
             </nav>
         </div>
     </header>
@@ -204,14 +248,37 @@
         {%block content%}{%endblock%}
     </div>
 
+    <div id="scroll-to-top-container">
+        <a id="scroll-to-top" href="#" title="Наверх">
+            <p style="margin: 0; font-size: 14px; font-weight: 400;">Наверх</p>
+            <i class="arrow fas fa-arrow-up"></i>
+        </a>
+    </div>
+
+    <script>
+    window.addEventListener('scroll', function() {
+        var scrollButton = document.getElementById('scroll-to-top');
+        if (window.pageYOffset > 100) {
+            scrollButton.style.display = 'block';
+        } else {
+            scrollButton.style.display = 'none';
+        }
+    });
+
+    document.getElementById('scroll-to-top').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+
+
 
     <footer class="mt-auto text-white-50">
         <p>StroiSkver 2023</p>
     </footer>
 </div>
-
-
-
-
 
 </body></html>

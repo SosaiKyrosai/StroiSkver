@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,UserChangeForm
 from django import forms
 from django.contrib.auth import authenticate, login
+from django.db.models import F
+from order.models import Order
 
 
 class LoginForm(AuthenticationForm):
@@ -123,10 +125,14 @@ def login_view(request):
 
 @login_required
 def profile(request):
-    user = request.user  # Получение текущего пользователя
-    profile = Profile.objects.get(user=user)  # Получение профиля пользователя
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    orders = Order.objects.filter(user=user).order_by('-order_date')[:3]  # Получение последних 3 заказов пользователя
+    has_more_orders = Order.objects.filter(user=user).count() > 3  # Проверка наличия больше заказов
     context = {
         'user': user,
-        'profile': profile
+        'profile': profile,
+        'orders': orders,
+        'has_more_orders': has_more_orders
     }
     return render(request, 'profile.html', context)

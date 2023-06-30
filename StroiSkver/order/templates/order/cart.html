@@ -4,7 +4,7 @@
 
 <style>
 .cart-items {
-  background-color: #f2f2f2;
+  background-color: #d3d9e3;
   width: 80%;
   margin: 0 auto;
   padding: 20px;
@@ -111,7 +111,7 @@
 </style>
 <h1 style="margin-bottom: 30px;">Ваша корзина</h1>
 {% if cart and not cart.cart_items.exists %}
-  <p>Ваша корзина пуста.</p>
+  <p>Ваша корзина пуста, вы можете добавить в нее товары со страницы <a style="font-weight: bold; color: #ba54b5; text-decoration: none;" href="{% url 'materials' %}">товаров</a></p>
 {% else %}
   <div class="cart-container">
     <button class="tab-button" onclick="redirectToUpdateCart()">Редактировать</button>

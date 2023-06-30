@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from buildingmaterials.models import Product
 from .models import Cart, CartItem, Order, OrderItem
 from userManagement.models import Profile
+from django.contrib import messages
+from django.http import HttpResponse
+
 
 @login_required
 def add_to_cart(request, product_id):
@@ -24,11 +27,10 @@ def add_to_cart(request, product_id):
             # Если товара нет в корзине, создаем новый элемент корзины
             cart_item = CartItem.objects.create(cart=cart, product=product)
 
-        return redirect('cart')  # Перенаправляем пользователя на страницу корзины
+        messages.success(request, 'Товар добавлен в корзину!')
+        return redirect('product_detail', id=product.id, slug=product.slug)  # Перенаправляем пользователя на страницу товара
     else:
         return redirect('home')
-
-
 
 
 @login_required
@@ -99,3 +101,47 @@ def order_success(request, order_id):
     }
 
     return render(request, 'order_successfully.html', context)
+
+
+@login_required
+def order_list(request):
+    orders = Order.objects.filter(user=request.user)
+    order_items = OrderItem.objects.filter(order__in=orders)
+    return render(request, 'order_list.html', {'orders': orders, 'order_items': order_items})
+
+
+@login_required
+def cancel_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    if order.status == 'Created' or order.status == 'Processed':
+        order.delete()
+    return redirect('order_list')
+
+
+@login_required
+def update_order(request, order_id):
+    order = Order.objects.filter(id=order_id, user=request.user).first()
+
+    if not order:
+        return HttpResponse("Заказ не найден.")
+
+    if request.method == 'POST':
+        order_items = order.order_items.all()
+
+        for item in order_items:
+            quantity = request.POST.get(f'quantity-{item.id}')
+            if quantity:
+                item.quantity = int(quantity)
+                item.save()
+
+            if f'delete-{item.id}' in request.POST:
+                item.delete()
+                return redirect('update_order', order_id=order.id)
+
+        return redirect('order_list')
+
+    else:
+        context = {
+            'order': order
+        }
+        return render(request, 'order_edit.html', context)
