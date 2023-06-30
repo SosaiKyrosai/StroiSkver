@@ -1,0 +1,200 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<style>
+/* Стили для заказа */
+.order-container {
+  background-color: #d3d9e3;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.order-item img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.order-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.order-item p {
+  color: black;
+}
+
+.order-summary {
+  background-color: #8a3e86;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  width: fit-content;
+  margin-left: auto;
+  border-radius: 4px;
+}
+
+.total-price {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.product-image {
+  width: 100px;
+  margin-right: 20px;
+}
+
+.product-name {
+  position: absolute;
+  top: 0;
+  left: 120px;
+  margin: 0;
+}
+
+.item-price-quantity {
+  display: flex;
+  align-items: flex-end;
+}
+
+.product-quantity {
+  margin-right: 20px;
+}
+
+.product-price {
+  margin: 0;
+}
+
+.order-info {
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+  margin-left: auto;
+  text-align: left;
+  font-weight: 600;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.edit-button {
+  background-color: #4f224d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  /* Добавьте следующие стили */
+  max-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cancel-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.button-icon {
+  margin-right: 5px;
+}
+</style>
+
+<h1 style="margin-bottom: 30px;">Ваши заказы</h1>
+{% if orders %}
+  {% for order in orders reversed %}
+    <div class="order-container">
+      <p class="order-info">Дата заказа: {{ order.order_date|date:"F d, Y, H:i" }}</p>
+      <p class="order-info">Номер заказа: {{ order.id }}</p>
+      <p class="order-info">Адрес: {{ order.address }}</p>
+      <p class="order-info">Статус:
+        {% if order.status == 'Created' %}
+          Создан
+        {% elif order.status == 'Processed' %}
+          Собран
+        {% elif order.status == 'Shipped' %}
+          Отправлен
+        {% elif order.status == 'Delivered' %}
+          Доставлен
+        {% endif %}
+      </p>
+
+      {% if order.status == 'Created' or order.status == 'Processed' %}
+      <div class="button-container">
+        <form method="POST" action="{% url 'cancel_order' order_id=order.id %}" class="cancel-form">
+          {% csrf_token %}
+          <button style="margin-right:20px;" type="submit" class="cancel-button">
+            <i class="fas fa-times button-icon"></i> Отменить заказ
+          </button>
+        </form>
+        {% if order.status == 'Created' %}
+        <button class="edit-button" onclick="redirectToEditOrder('{{ order.id }}')">
+          <i class="fas fa-pencil-alt button-icon"></i> Редактировать
+        </button>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <script>
+        function redirectToEditOrder(orderId) {
+          window.location.href = orderId + '/edit/';
+        }
+      </script>
+
+      <div class="cart-items">
+        {% for item in order.order_items.all %}
+          <div class="order-item">
+            <div class="order-details">
+              {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+              {% endif %}
+              <p class="product-name">{{ item.product.name }}</p>
+              <div class="item-price-quantity">
+                <p class="product-quantity">{{ item.quantity }}</p>
+                <p class="product-price">Цена: {{ item.product.price }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="order-summary">
+          <p class="total-price"><strong>Общая стоимость:</strong> {{ order.total_price }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>У вас еще нет заказов.</p>
+{% endif %}
+
+<script>
+  function redirectToUpdateCart() {
+    window.location.href = "{% url 'update_cart' %}";
+  }
+</script>
+{% endblock %}

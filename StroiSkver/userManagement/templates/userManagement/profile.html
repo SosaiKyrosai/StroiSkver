@@ -33,11 +33,11 @@
     }
 
     .logout-button {
-      background-color: #e74c3c;
+      background-color: #4f224d;
       color: white;
       font-weight: 500;
       padding: 8px 16px;
-      border-radius: 5px;
+      border-radius: 5px 5px 0 0;
       text-decoration: none;
       font-size: 1.3rem;
     }
@@ -51,6 +51,16 @@
     .order-link, .logout-button {
       text-decoration: none;
     }
+ .history-button {
+    background-color: #4f224d;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    padding: 4px 8px;
+  }
  </style>
 
 <div style="margin-top: 20px;" class="container">
@@ -66,9 +76,10 @@
             <img style="box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);" src="{{ user.profile.photo.url }}" alt="Profile Photo" width="200" height="200">
           </div>
           <div class="col-md-8 text-left">
-            <p>Имя пользователя: {{ user.first_name }} {{ user.last_name }}</p>
+            <p>Имя пользователя: {% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}не указано{% endif %}</p>
             <p>Email: {% if user.email %}{{ user.email }}{% else %}не указано{% endif %}</p>
             <p>Номер телефона: {% if user.profile.phone_number %}{{ user.profile.phone_number }}{% else %}не указано{% endif %}</p>
+            <p>Логин: {{ user.username }}</p>
           </div>
         </div>
       </div>

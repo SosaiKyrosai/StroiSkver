@@ -11,8 +11,8 @@ from order.models import Order
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label="Username", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(label="Логин:", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label="Пароль:", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -44,7 +44,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileEditForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'username']
 
     photo = forms.ImageField(required=False)
     phone_number = forms.CharField(max_length=12, required=False)
@@ -71,7 +71,7 @@ class ProfileEditForm(UserChangeForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email")
+        fields = ("first_name", "last_name", "email", "username")
 
 
 class UserProfileForm(forms.ModelForm):
@@ -100,7 +100,8 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home')  # Перенаправление после успешной регистрации
     else:
         form = CustomUserCreationForm()

@@ -52,6 +52,7 @@
                 <p>Имя:</p> {{ u_form.first_name }}
                 <p>Фамилия:</p> {{ u_form.last_name }}
                 <p>Email адрес:</p> {{ u_form.email }}
+                <p>Логин:</p> {{ u_form.username }}
                 {% if not p_form.hidden_fields %}
                 <div class="form-group">
                     <label for="{{ p_form.photo.id_for_label }}">Фото профиля:</label>

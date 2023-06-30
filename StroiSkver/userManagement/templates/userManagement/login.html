@@ -1,10 +1,66 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .form-title {
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+
+    .form-submit {
+      margin: 0 auto;
+      display: block;
+      margin-top: 20px;
+      background-color: #8a3e86;
+      color: white;
+      border-radius: 5px;
+      padding: 8px 16px;
+    }
+
+    .form-submit:hover {
+      background-color: #4f224d;
+    }
+
+    form {
+      text-align: right;
+    }
+
+    form p {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      border-radius: 5px;
+      padding: 8px;
+      margin-left:20px;
+    }
+  </style>
+
+  <div class="container">
+    <div class="form-container">
+      <h2 class="form-title">Вход</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="form-submit btn">Подтвердить</button>
+      </form>
+    </div>
+  </div>
 {% endblock %}
