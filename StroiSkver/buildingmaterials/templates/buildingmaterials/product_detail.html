@@ -70,15 +70,15 @@ function goBack() {
   </div>
   <div class="product-details-right">
     <h1>{{ product.name }}</h1>
-    <div class="product-actions">
-      <button class="btn btn-secondary wishlist-button">
-        <i class="far fa-heart"></i> Добавить в избранное
-      </button>
-    </div>
     <p style="margin-top: 20px;">Описание: {{ product.description }}</p>
     <p>Цена: {{ product.price }} ₽</p>
     <form action="{% url 'add_to_cart' product.id %}" method="POST">
       {% csrf_token %}
+      {% if not user.is_authenticated %}
+      <div class="notification alert alert-danger">
+        Для добавления товара в корзину авторизуйтесь
+      </div>
+      {% endif %}
       <button style="background-color: #8a3e86; border: none;" type="submit" class="btn btn-primary cart-button">
         <i class="fas fa-shopping-cart"></i> Добавить в корзину
       </button>

@@ -12,6 +12,9 @@ class Profile(models.Model):
     street = models.CharField(max_length=255, null=True, blank=True)
     house_number = models.CharField(max_length=10, null=True, blank=True)
     apartment_number = models.CharField(max_length=10, blank=True, null=True)
+    security_question = models.CharField(max_length=255, null=True, blank=True)
+    control_response = models.CharField(max_length=255, null=True, blank=True)
+
 
     # Дополнительные поля и методы профиля
 

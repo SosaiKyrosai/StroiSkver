@@ -5,9 +5,7 @@ from django.urls import path
 
 urlpatterns = [
 
-    path('search/', views.search_papers, name='search_papers'),
-    path('FAQ/', views.faq, name='faq'),
-    path('', views.index, name='home'),
+    path('plaster_calc/', views.plaster_calc, name='plaster_calc'),
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

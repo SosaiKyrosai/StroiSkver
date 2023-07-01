@@ -4,9 +4,12 @@
 {%block tittle%}
 Главная
 {%endblock%}
-{%block search%}<input class="form-control me-2" name="q" id="id_q_large" type="text"
-                             placeholder="Поиск по статьям" aria-label="Search">
-                      <button class="btn btn-outline-secondary" type="submit">Поиск</button>{%endblock%}
+{%block search%}
+  <form class="d-flex" action="{% url 'search_papers' %}" method="GET">
+    <input class="form-control me-2" name="q" id="id_q_large" type="text" placeholder="Поиск по статьям" aria-label="Search" value="{{ query }}">
+    <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+  </form>
+{%endblock%}
 {%block content%}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,0 +1,141 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .articles-container {
+        width: 100%;
+        margin: 0 auto;
+        background-color: #d3d9e3;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .article-item {
+        margin-bottom: 10px;
+        border-radius: 5px;
+        height: 70px;
+        padding: 10px;
+        position: relative;
+    }
+
+    .article-item::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: black;
+    }
+
+    .article-content {
+        display: flex;
+        align-items: center;
+    }
+
+    .article-number {
+    color: black;
+    font-weight: 500;
+    font-size: 1.2rem;
+    }
+
+    .article-title {
+        color: black;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .articles-wrapper {
+        width: 80%;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    h1 {
+        text-align: left;
+    }
+
+    /* Стили для кнопки редактирования */
+    .edit-button {
+        background-color: #8a3e86;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        margin-left: auto; /* Выравнивание по правому краю */
+    }
+
+    .button-icon {
+        margin-right: 5px;
+    }
+
+    .false-button {
+    background-color: #e63549;
+    color: white;
+    font-weight: normal; /* Убрано жирное начертание */
+    padding: 5px 10px; /* Уменьшен отступ */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem; /* Уменьшен размер шрифта */
+    margin-left: auto; /* Выравнивание по правому краю */
+}
+
+.true-button {
+    background-color: #15bf23;
+    color: white;
+    font-weight: normal; /* Убрано жирное начертание */
+    padding: 5px 10px; /* Уменьшен отступ */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem; /* Уменьшен размер шрифта */
+    margin-left: auto; /* Выравнивание по правому краю */
+}
+
+   .edit-button_up {
+      background-color: #8a3e86;
+      color: white;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 5px 5px 0 0;
+      text-decoration: none;
+      font-size: 1.3rem;
+      margin-right: 5px;
+    }
+
+</style>
+
+<div class="articles-wrapper">
+    <h1>
+        Список пользователей
+        <a style="margin-left:10px;" href="{% url 'paper_list'%}" class="edit-button_up">Список статей<i style="margin-left: 10px;" class="fas fa-sticky-note button-icon"></i></a>
+    </h1>
+    <div class="articles-container">
+        <ul>
+            {% for user in users %}
+            <li class="article-item">
+                <div class="article-content">
+                    <span class="article-number">{{ user.username }}</span>
+                    {% if user.is_superuser %}
+                        <button class="false-button" onclick="window.location.href='{% url 'remove_admin' user_id=user.id %}'">
+                            <i class="fas fa-user-times button-icon"></i> Снять права администратора
+                        </button>
+                    {% else %}
+                        <button class="true-button" onclick="window.location.href='{% url 'make_admin' user_id=user.id %}'">
+                            <i class="fas fa-user-plus button-icon"></i> Сделать администратором
+                        </button>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

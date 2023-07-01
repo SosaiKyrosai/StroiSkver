@@ -29,7 +29,7 @@
       border-radius: 5px 5px 0 0;
       text-decoration: none;
       font-size: 1.3rem;
-      margin-right: 15px;
+      margin-right: 5px;
     }
 
     .logout-button {
@@ -67,8 +67,12 @@
   <div class="row">
     <div style="text-align: left;" class="col-md-12">
       <h2>Личные данные
-        <a href="{% url 'profile_edit' %}" class="edit-button">Редактировать профиль</a>
-        <a href="{% url 'logout' %}" class="logout-button">Выйти из аккаунта</a>
+        <a href="{% url 'profile_edit' %}" class="edit-button"> Редактировать профиль <i class="fas fa-pencil-alt button-icon"></i></a>
+        <a href="{% url 'logout' %}" class="logout-button">Выйти из аккаунта <i class="fas fa-times button-icon"></i></a>
+        <a href="{% url 'password_change' %}" class="edit-button">Сменить пароль <i class="fas fa-cog button-icon"></i></a>
+         {% if user.is_superuser %}
+        <a href="{% url 'paper_list' %}" class="logout-button">Админ-панель <i class="fas fa-lock button-icon"></i></a>
+        {% endif %}
       </h2>
       <div class="block">
         <div class="row justify-content-center">

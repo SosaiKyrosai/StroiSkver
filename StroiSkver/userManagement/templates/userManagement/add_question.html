@@ -1,0 +1,122 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<style>
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .form-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  .form-submit {
+    margin: 0 auto;
+    display: block;
+    margin-top: 20px;
+    background-color: #8a3e86;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 16px;
+  }
+
+  .form-submit:hover {
+    background-color: #4f224d;
+  }
+
+  form {
+    text-align: right;
+  }
+
+  form p {
+    margin-bottom: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    border-radius: 5px;
+    padding: 8px;
+    max-width: 200px;
+    margin-bottom: 20px;
+  }
+
+  .log-button {
+    color: #ba54b5;
+    font-size: 1.1rem;
+  }
+
+  .custom-container {
+    background-color: rgba( 211, 217, 227, 0.2);
+    padding: 10px;
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+  }
+
+.custom-icon {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .custom-icon i {
+    font-size: 80px;
+    color: #ba54b5;
+  }
+
+  .custom-content {
+    width: 80%;
+    text-align: left;
+  }
+</style>
+
+
+  <div class="container">
+    <div class="form-container">
+      <h2 class="form-title">Регистрация</h2>
+      <h2 class="form-title">Шаг 2</h2>
+      <div class="custom-container">
+        <div class="custom-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <div class="custom-content">
+          <p>• Если вы забудете пароль, его можно будет сбросить, ответив на контрольный вопрос</p>
+          <p>• Добавьте контрольный вопрос и ответ на него</p>
+          <p>• Ответом на контрольный вопрос должно быть 1 слово</p>
+        </div>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div>
+          <label for="id_security_question">Контрольный вопрос:</label>
+          <input type="text" name="security_question" id="id_security_question">
+        </div>
+        <div>
+          <label for="id_control_response">Ответ на контрольный вопрос:</label>
+          <input type="text" name="control_response" id="id_control_response">
+        </div>
+
+        {% for field in form %}
+          {% for error in field.errors %}
+            <p style="color: red;">{{ error }}</p>
+          {% endfor %}
+        {% endfor %}
+
+        <button type="submit" class="form-submit btn">Добавить</button>
+      </form>
+      <br>
+    </div>
+  </div>
+{% endblock %}

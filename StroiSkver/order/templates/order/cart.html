@@ -136,6 +136,13 @@
         <p class="total-price"><strong>Общая стоимость:</strong> {{ cart.get_total_price }}</p>
         <form action="{% url 'cart' %}" method="POST">
           {% csrf_token %}
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-warning">
+            {{ message }}
+          </div>
+          {% endfor %}
+{% endif %}
           <button type="submit" class="btn btn-primary">Оформить заказ</button>
         </form>
       </div>
@@ -148,13 +155,4 @@
   }
 </script>
 
-
-<script>
-function createOrder() {
-  const confirmation = confirm('Вы действительно хотите оформить заказ?');
-  if (confirmation) {
-    document.getElementById('order-form').submit();  // Отправляем форму
-  }
-}
-</script>
 {% endblock %}

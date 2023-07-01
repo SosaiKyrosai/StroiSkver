@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 
 
-@login_required
+@login_required(login_url='login')
 def add_to_cart(request, product_id):
     if request.method == 'POST':
         # Получаем товар, который нужно добавить в корзину
@@ -39,6 +39,11 @@ def cart(request):
     profile = Profile.objects.get(user=request.user)
 
     if request.method == 'POST':
+        # Проверка наличия адреса в профиле пользователя
+        if not profile.city or not profile.street or not profile.house_number:
+            messages.warning(request, 'Заполните адрес в профиле')
+            return redirect('cart')
+
         # Создание заказа
         order = Order.objects.create(user=request.user, total_price=cart.get_total_price(), address=profile.city + ', ' + profile.street + ', ' + profile.house_number)
 

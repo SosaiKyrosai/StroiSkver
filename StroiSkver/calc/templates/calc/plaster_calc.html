@@ -1,0 +1,94 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+Калькулятор штукатурки
+{% endblock %}
+{% block content %}
+<style>
+    h3 {
+        font-size: 20px;
+    }
+
+    select, input {
+        font-size: 16px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    #num1, #num2 {
+        width: 80px;
+    }
+
+    .calculate-button {
+        margin-top: 20px;
+        background-color: #8a3e86;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .calculate-button:hover {
+        background-color: #4f224d;
+    }
+</style>
+
+<div style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Рассчитать количество штукатурки</h1>
+    <br>
+    <div style="display: flex; flex-direction: row; align-items: center;">
+        <h3 style="margin-right: 10px;">Длина стен</h3>
+        <input style="margin-right: 10px;" type="text" id="num1"> <h3>м,</h3>
+        <h3 style="margin-right: 10px; margin-left: 20px;">высота потолка</h3>
+        <input style="margin-right: 10px;" type="text" id="num2"> <h3>м</h3>
+    </div>
+    <br>
+    <div style="display: flex; flex-direction: row; align-items: center;">
+        <h3 style="margin-right: 10px;">Тип штукатурки</h3>
+        <select style="margin-right: 10px;" id="typeplaster">
+            <option value="Гипсовая">Гипсовая</option>
+            <option value="Цементная">Цементная</option>
+            <option value="Декоративная">Декоративная</option>
+        </select>
+        <h3 style="margin-right: 10px;">толщина слоя</h3>
+        <select style="margin-right: 10px;" id="num3">
+            <option value="1">1 см</option>
+            <option value="2">2 см</option>
+            <option value="3">3 см</option>
+            <option value="4">4 см</option>
+            <option value="5">5 см</option>
+        </select>
+    </div>
+    <br><br>
+    <button onclick="calculate()" class="calculate-button">Рассчитать</button>
+    <br><br>
+    <h3 id="result"></h3>
+</div>
+
+<script>
+    function calculate() {
+        var num1 = parseFloat(document.getElementById("num1").value);
+        var num2 = parseFloat(document.getElementById("num2").value);
+        var num3 = parseInt(document.getElementById("num3").value);
+        var typep = document.getElementById("typeplaster").value;
+
+        if (!isNaN(num1) && !isNaN(num2) && !isNaN(num3) && num3 < 6) {
+            var resultElement = document.getElementById("result");
+            var res;
+
+            if (typep === 'Гипсовая') {
+                res = ((num1 * num2) * 9) * num3;
+            } else if (typep === 'Цементная') {
+                res = ((num1 * num2) * 17) * num3;
+            } else if (typep === 'Декоративная') {
+                res = ((num1 * num2) * 8) * num3;
+            }
+
+            resultElement.innerHTML = "Вам понадобится " + res.toFixed(2) + " килограмм штукатурки";
+        } else {
+            document.getElementById("result").innerHTML = "Ошибка: вводить можно только числовые значения и толщина слоя должна быть менее 6 см";
+        }
+    }
+</script>
+{% endblock %}

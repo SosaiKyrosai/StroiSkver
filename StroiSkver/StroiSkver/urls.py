@@ -24,6 +24,8 @@ urlpatterns = [
     path('buildingmaterials/', include('buildingmaterials.urls')),
     path('account/', include('userManagement.urls')),
     path('cart/', include('order.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('calc/', include('calc.urls')),
     path('', include('home.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:

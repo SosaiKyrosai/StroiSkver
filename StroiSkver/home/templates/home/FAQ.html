@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+Часто задаваемые вопросы
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+  .faq-item {
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+  }
+
+  .faq-icon {
+    margin-right: 10px;
+    transition: transform 0.3s ease-in-out;
+    color: #000;
+  }
+
+  .faq-answer {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    color: #000;
+    text-align: left;
+  }
+
+  .faq-show .faq-icon:before {
+    content: "\f068"; /* минус */
+  }
+
+  .faq-show .faq-answer {
+    max-height: 1000px;
+    display: block;
+  }
+</style>
+
+<div style="max-width: 600px; margin: 0 auto;">
+  <h1>Часто задаваемые вопросы</h1>
+  <br>
+
+  <div class="faq-item" onclick="toggleAnswer('answer1')">
+    <div class="faq-question">
+      <i class="fas fa-plus fa-fw fa-lg fa-icon"></i>
+      <h3>Как оформить заказ?</h3>
+    </div>
+    <div class="faq-answer" id="answer1">
+      <p>Для оформления заказа добавьте все нужные товары в корзину, отредактируйте ее если вам нужно и нажмите кнопку "Оформить заказ"</p>
+    </div>
+  </div>
+
+  <div class="faq-item" onclick="toggleAnswer('answer2')">
+    <div class="faq-question">
+      <i class="fas fa-plus fa-fw fa-lg fa-icon"></i>
+      <h3>Как посмотреть свои заказы?</h3>
+    </div>
+    <div class="faq-answer" id="answer2">
+      <p>Для просмотра истории заказов перейдите в профиль, в разделе "Заказы" будут 3 ваших последних заказа, и если у вас больше 3х заказов так же будет кнопка "История заказов". После прехода в историю заказов вы сможете увидеть состав заказа, его дату и статус, а так же отменить заказ или отредактировать его</p>
+    </div>
+  </div>
+
+  <div class="faq-item" onclick="toggleAnswer('answer3')">
+    <div class="faq-question">
+      <i class="fas fa-plus fa-fw fa-lg fa-icon"></i>
+      <h3>Как отменить заказ?</h3>
+    </div>
+    <div class="faq-answer" id="answer3">
+      <p>Для отмены заказа перейдите в профиль, в разделе "Заказы" будут 3 ваших последних заказа, и если у вас больше 3х заказов так же будет кнопка "История заказов". После прехода в историю заказов вы сможете увидеть состав заказа, его дату и статус, а так же отменить заказ или отредактировать его</p>
+    </div>
+  </div>
+
+  <!-- Добавьте еще вопросы и ответы по аналогии -->
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+
+<script>
+  function toggleAnswer(id) {
+    var answerElement = document.getElementById(id);
+    var iconElement = document.querySelector(`[onclick="toggleAnswer('${id}')"] .fa-icon`);
+    if (answerElement.style.display === "block") {
+      answerElement.style.display = "none";
+      iconElement.classList.remove("fa-minus");
+      iconElement.classList.add("fa-plus");
+      iconElement.parentNode.parentNode.classList.remove("faq-show");
+    } else {
+      answerElement.style.display = "block";
+      iconElement.classList.remove("fa-plus");
+      iconElement.classList.add("fa-minus");
+      iconElement.parentNode.parentNode.classList.add("faq-show");
+    }
+  }
+</script>
+{% endblock %}

@@ -28,6 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# settings.py
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 # Application definition
 
@@ -40,9 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'buildingmaterials',
     'userManagement',
-    'home',
     'core',
     'order',
+    'dashboard',
+    'calc',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +81,8 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'buildingmaterials/templates/buildingmaterials'),
             os.path.join(BASE_DIR, 'userManagement/templates/userManagement'),
             os.path.join(BASE_DIR, 'order/templates/order'),
+            os.path.join(BASE_DIR, 'home/templates/home'),
+            os.path.join(BASE_DIR, 'calc/templates/calc'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -141,3 +150,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'password_reset.log',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
